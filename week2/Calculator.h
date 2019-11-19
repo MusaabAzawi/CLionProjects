@@ -6,7 +6,7 @@
 #define WEEK2_MAIN_H
 
 #endif //WEEK2_MAIN_H
-class main{
+class Calculator{
 
 
 public:
