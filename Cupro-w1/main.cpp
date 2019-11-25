@@ -10,8 +10,10 @@ std::vector<std::thread> vecOfThread;
 std::mutex mtx;
 
 void print(){
-
+   // std::lock_guard<std::mutex>lockGuard(mtx);
+    mtx.lock();
     std::cout << "Hello from thread " << std::this_thread::get_id() << std::endl;
+    mtx.unlock();
 
 }
 
@@ -21,13 +23,12 @@ int main() {
     for (int i = 0; i < 5; ++i) {
         vecOfthreads.push_back(std::thread(print));
     }
-    mtx.lock();
+
     for(auto& thread : vecOfthreads){
 
         if(thread.joinable())
                 thread.join();
     }
-    mtx.unlock();
 
     return 0;
 
