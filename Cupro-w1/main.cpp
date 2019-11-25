@@ -1,22 +1,34 @@
+
+//mutex example
 #include <iostream>
 #include <thread>
-#include <string>
 #include <vector>
+#include <mutex>
 
 
-void print(int n){
+std::vector<std::thread> vecOfThread;
+std::mutex mtx;
 
+void print(){
 
-    std::cout << "message is " << n << std::endl;
+    std::cout << "Hello from thread " << std::this_thread::get_id() << std::endl;
 
 }
 
-
 int main() {
-    // std::string s = "test";
-    int i = 26;
-    std::thread t(&print, i); // t start running
-    t.join();
+
+    std::vector<std::thread> vecOfthreads;
+    for (int i = 0; i < 5; ++i) {
+        vecOfthreads.push_back(std::thread(print));
+    }
+    mtx.lock();
+    for(auto& thread : vecOfthreads){
+
+        if(thread.joinable())
+                thread.join();
+    }
+    mtx.unlock();
+
     return 0;
 
 }
